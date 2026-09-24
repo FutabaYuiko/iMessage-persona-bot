@@ -1,8 +1,9 @@
-<img width="1206" height="2622" alt="IMG_0813" src="https://github.com/user-attachments/assets/13276bb6-812a-4773-a40c-800fd47566c7" />
 
 # iMessage Persona Bot
 
 A self-hosted AI character chatbot that connects to **real iMessage** via [Photon](https://photon.codes)'s Spectrum SDK, powered by Google Gemini. Your custom persona replies directly inside the native Messages app on your phone — not a web-based mockup like typical SillyTavern-style extensions.
+
+<img width="1206" height="2622" alt="IMG_0813" src="https://github.com/user-attachments/assets/13276bb6-812a-4773-a40c-800fd47566c7" />
 
 ## What makes this different
 
@@ -44,7 +45,7 @@ touch memory.md
 
 Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey), sign in with a Google account, and generate a free API key. Copy it — you'll need it in the next step.
 
-This project is built specifically around the Gemini API's request/response format (`systemInstruction`, `generationConfig`, `inlineData` for images, etc.), so it's designed to work with Gemini models only. You *can* point `LLM_API_URL` at a different Gemini model version (e.g. swap `gemini-3.6-flash-lite` for `gemini-2.5-pro`), but switching to a different model family entirely (Claude, GPT, etc.) would require rewriting the request-building code — that's out of scope for a drop-in config change.
+This project is built specifically around the Gemini API's request/response format (`systemInstruction`, `generationConfig`, `inlineData` for images, etc.), so it's designed to work with Gemini models only. You *can* point `LLM_API_URL` at a different Gemini model version (e.g. swap `gemini-3.5-flash-lite` for `gemini-2.5-pro`), but switching to a different model family entirely (Claude, GPT, etc.) would require rewriting the request-building code — that's out of scope for a drop-in config change.
 
 ### 4. Create a Photon account and project
 
@@ -68,7 +69,7 @@ TIMEZONE=
 
 - `LLM_API_URL` can be left empty to use the default model (`gemini-3.5
 -flash-lite`). If you want a different Gemini model, use the full endpoint URL, e.g.:
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent`
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent`
 - `TIMEZONE` should be an IANA timezone name (e.g. `America/New_York`, `Europe/London`, `Asia/Tokyo`). This is used so the character has an accurate sense of the current date and time — leave empty to default to UTC.
 
 ---
