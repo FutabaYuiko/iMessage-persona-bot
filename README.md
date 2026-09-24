@@ -18,8 +18,8 @@ Most AI character chat tools (SillyTavern, browser extensions, etc.) simulate a 
 ### 1. Clone this repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
+git clone https://github.com/FutabaYuiko/iMessage-persona-bot.git
+cd iMessage-persona-bot
 ```
 
 ### 2. Create your local config files
