@@ -64,7 +64,8 @@ LLM_API_URL=
 TIMEZONE=
 ```
 
-- `LLM_API_URL` can be left empty to use the default model (`gemini-3.6-flash-lite`). If you want a different Gemini model, use the full endpoint URL, e.g.:
+- `LLM_API_URL` can be left empty to use the default model (`gemini-3.5
+-flash-lite`). If you want a different Gemini model, use the full endpoint URL, e.g.:
   `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent`
 - `TIMEZONE` should be an IANA timezone name (e.g. `America/New_York`, `Europe/London`, `Asia/Tokyo`). This is used so the character has an accurate sense of the current date and time — leave empty to default to UTC.
 
