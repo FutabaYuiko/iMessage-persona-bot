@@ -1,3 +1,7 @@
+<img width="1206" height="2622" alt="IMG_0812" src="https://github.com/user-attachments/assets/83ae4586-20d2-4d0b-9f8f-c2b67615ef74" />
+<img width="1206" height="2622" alt="IMG_0813" src="https://github.com/user-attachments/assets/13276bb6-812a-4773-a40c-800fd47566c7" />
+<img width="1206" height="2622" alt="IMG_0814" src="https://github.com/user-attachments/assets/03a63033-b71d-4452-b84e-0f535dd0d90e" />
+
 # iMessage Persona Bot
 
 A self-hosted AI character chatbot that connects to **real iMessage** via [Photon](https://photon.codes)'s Spectrum SDK, powered by Google Gemini. Your custom persona replies directly inside the native Messages app on your phone — not a web-based mockup like typical SillyTavern-style extensions.
@@ -72,6 +76,7 @@ TIMEZONE=
 ---
 
 *(Continued in the next section — Building Your Persona, running the bot, and known limitations)*
+
 
 
 
