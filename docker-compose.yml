@@ -1,0 +1,17 @@
+services:
+  imessage-bot:
+    build: .
+    container_name: imessage-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./state.db:/app/state.db
+      - ./persona.json:/app/persona.json
+      - ./memory.md:/app/memory.md
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+        reservations:
+          memory: 100M

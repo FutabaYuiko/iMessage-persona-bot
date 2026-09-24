@@ -1,0 +1,10 @@
+{
+  "name": "imessage-persona-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "spectrum-ts": "^12.7.0",
+    "better-sqlite3": "^11.3.0",
+    "node-fetch": "^3.3.2"
+  }
+}
