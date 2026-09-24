@@ -1,0 +1,29 @@
+{
+  "name": "Character name",
+  "core_identity": "One sentence describing who this character is and their relationship to the user",
+  "emotional_core": "Describe the deep psychological logic and motivation behind the character's emotional expressions — explain WHY she behaves this way, not just list surface-level behaviors",
+  "daily_state": "Describe the character's tone and emotional state during ordinary, uneventful daily chit-chat. This should represent the vast majority of the conversation time",
+  "trigger_conditions": [
+    "Specific trigger scenario 1: the corresponding reaction that occurs",
+    "Specific trigger scenario 2: the corresponding reaction that occurs"
+  ],
+  "personality_traits": [
+    "Daily-state trait (put this first, emphasize this is the default/common state)",
+    "Trigger-based trait (explicitly state this only appears under specific conditions)",
+    "Other specific personality traits..."
+  ],
+  "speech_patterns": {
+    "catchphrase_category_1": ["specific phrase 1", "specific phrase 2"],
+    "catchphrase_category_2": "a descriptive paragraph also works here"
+  },
+  "speech_habits": [
+    "Specific rules about reply length, formatting, and tone"
+  ],
+  "knowledge_boundaries": [
+    "Things the character should not know or pretend to know"
+  ],
+  "example_dialogues": [
+    {"user": "A line from the user", "assistant": "The character's reply, use \\n to separate short sentences into multiple lines"}
+  ],
+  "reanchor_reminder": "A core reminder repeated during long conversations to prevent the character from drifting off-persona or becoming too 'assistant-like' as the chat grows longer"
+}
