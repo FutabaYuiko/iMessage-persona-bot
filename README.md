@@ -76,19 +76,15 @@ TIMEZONE=
 
 ### 6. Persona Generation Prompt
 
-## Why this exists
+Why this exists
 
 `persona.json` is the single most important file in this project — it defines *everything* about how your character thinks, speaks, and reacts. The quality of your conversations depends far more on how well this file is written than on any code change you could make. A vague or shallow persona produces flat, repetitive, generic-sounding replies no matter how good the underlying model is. A carefully specified one produces a character that feels consistent, has genuine texture, and reacts differently to different situations.
 
-Not everyone wants to extract a persona from an existing novel or show, and not everyone has the patience to hand-write all ten fields from scratch. This prompt is designed to be pasted into **any general-purpose AI chat tool** (ChatGPT, Claude, Gemini, etc.) along with your own description of the character you want, so the AI does the structuring work for you and outputs a ready-to-use `persona.json`.
 
-## A note on character cards from other platforms
 
-If you already have a character card from another platform (SillyTavern-style `chara_card_v2`, CharacterHub, etc.), you cannot drop it in as-is — the field names and structure are different, and it's built for a different kind of interaction (turn-based novel-style roleplay with a `first_mes`, `scenario`, `alternate_greetings`, and often a lorebook) rather than the ongoing, real-time texting-a-friend format this bot is designed for. Those cards are usually a great *source of raw material* though: the description, personality bullets, and example lines from a `chara_card_v2` file can be fed into the prompt below as reference material, and the AI can restructure them into this project's format. Just don't expect a copy-paste to work.
+The prompt
 
-## The prompt
-
-Copy everything in the code block below into a fresh conversation with your AI of choice, then replace the placeholder section with your own notes about the character — as much or as little detail as you have. The more specific and concrete your notes, the better the output.
+Copy everything in the code block below into a fresh conversation with your AI of choice, then replace the placeholder section in `persona.json` with your own notes about the character — as much or as little detail as you have. The more specific and concrete your notes, the better the output.
 
 ```
 You are helping me create a character persona file in a specific JSON format for an AI chatbot that texts like a real person over iMessage. The chatbot is NOT a novel-style roleplay narrator — it sends short, casual text messages back and forth like a real friend would, so the persona needs to be built for that kind of low-key, ongoing texting dynamic rather than descriptive prose or third-person narration.
@@ -228,13 +224,15 @@ Here is my character:
 }]
 ```
 
+A note on character cards from other platforms
+
+If you already have a character card from another platform (SillyTavern-style `chara_card_v2`, CharacterHub, etc.), you cannot drop it in as-is — the field names and structure are different, and it's built for a different kind of interaction (turn-based novel-style roleplay with a `first_mes`, `scenario`, `alternate_greetings`, and often a lorebook) rather than the ongoing, real-time texting-a-friend format this bot is designed for. Those cards are usually a great *source of raw material* though: the description, personality bullets, and example lines from a `chara_card_v2` file can be fed into the prompt below as reference material, and the AI can restructure them into this project's format. Just don't expect a copy-paste to work.
+
 ## Why the output language matters
 
 Whatever language you write the `persona.json` fields in is very likely the language the character will actually reply in, since these fields are injected directly into the system prompt sent to Gemini on every turn — the model tends to follow the dominant language of its instructions, not just the literal content. If you want an English-speaking character, write the entire file in English, including `speech_patterns` labels and `knowledge_boundaries`. Mixing languages within the file (e.g. English personality traits but Chinese example dialogues) tends to produce inconsistent output where the character randomly code-switches mid-conversation.
 
 ## Iterating after the first draft
-
-Treat the first generated `persona.json` as a draft, not a final product. Run it for a real conversation of at least 20-30 turns, then look for:
 
 - Places where replies feel repetitive or reach for the same phrase too often — usually fixable by diversifying `example_dialogues`.
 - The character acting more dramatic/extreme than intended in ordinary conversation — usually means `daily_state` needs to be stated more forcefully, or `trigger_conditions` need to be narrower and more specific.
