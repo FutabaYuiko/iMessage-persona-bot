@@ -134,8 +134,9 @@ node index.mjs
 You should see Connected to Spectrum. Listening for messages.... Leave this terminal window open — closing it stops the bot. To keep it running in the background and auto-restart it on crash (similar to Docker's restart: unless-stopped), use PM2:
 npm install -g pm2
 pm2 start index.mjs --name imessage-bot
-
+```
 </details>
+
 
 
 
