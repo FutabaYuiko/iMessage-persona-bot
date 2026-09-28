@@ -63,7 +63,8 @@ New-Item -ItemType File -Name memory.md
  * persona.json is your character's personality definition — see Building Your Persona further down for how to design one from scratch.
  * memory.md is a long-term memory file the bot appends to automatically over time. It can start completely empty.
 > Note: state.db (the conversation database) does not need to be created manually — it's generated automatically the first time the bot runs.
-> 
+>
+```
 </details>
 <details>
 <summary><h2>Setup: Native Node.js (no Docker)</h2></summary>
@@ -117,7 +118,7 @@ node index.mjs
 You should see Connected to Spectrum. Listening for messages.... Leave this terminal window open — closing it stops the bot. To keep it running in the background and auto-restart it on crash (similar to Docker's restart: unless-stopped), use PM2:
 npm install -g pm2
 pm2 start index.mjs --name imessage-bot
-
+```
 </details>
 
 
