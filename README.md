@@ -219,7 +219,7 @@ TIMEZONE=
 
 ---
 
-### 5. Persona Generation Prompt
+### Persona Generation Prompt
 
 Why this exists
 
