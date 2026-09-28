@@ -31,9 +31,7 @@ Both paths run the exact same bot — this only affects how it's launched and su
 
 
 <details>
-<summary>Setup: Docker (Linux / macOS / Windows)</summary>
-
-## Setup: Docker (Linux / macOS / Windows)
+<summary><h2>Setup: Docker (Linux / macOS / Windows)</h2></summary>
 
 ### 1. Install Docker
 
@@ -46,7 +44,7 @@ brew install --cask docker-desktop
 Then launch Docker from Applications and wait for the whale icon in the menu bar to stop animating before continuing.
 Windows: Docker Desktop on Windows requires WSL2. Install Docker Desktop, which will prompt you to enable WSL2 if it isn't already — follow its prompts, restart when asked, and wait for Docker Desktop to show "Engine running" before continuing. This requires virtualization to be enabled in your BIOS, which is on by default on most modern PCs.
 2. Clone this repository
-git clone https://github.com/FutabaYuiko/iMessage-persona-bot.git
+git clone [https://github.com/FutabaYuiko/iMessage-persona-bot.git](https://github.com/FutabaYuiko/iMessage-persona-bot.git)
 cd iMessage-persona-bot
 
 3. Create your local config files
@@ -67,23 +65,12 @@ New-Item -ItemType File -Name memory.md
 > Note: state.db (the conversation database) does not need to be created manually — it's generated automatically the first time the bot runs.
 > 
 </details>
-
-
-
-
 <details>
-<summary> Setup: Native Node.js (no Docker)</summary>
-
-## Setup: Native Node.js (no Docker)
-
+<summary><h2>Setup: Native Node.js (no Docker)</h2></summary>
 This path works identically on Windows, macOS, and Linux — only the install step for Node.js itself differs.
-
-### 1. Install Node.js 24 LTS
-
-**Windows:** download the **LTS** installer (not "Current") from [nodejs.org/en/download](https://nodejs.org/en/download) and run the `.msi`, keeping "Add to PATH" checked. Open a **new** PowerShell window afterward so it picks up the updated PATH.
-
-**macOS:** the easiest route is [Homebrew](https://brew.sh):
-```bash
+1. Install Node.js 24 LTS
+Windows: download the LTS installer (not "Current") from nodejs.org/en/download and run the .msi, keeping "Add to PATH" checked. Open a new PowerShell window afterward so it picks up the updated PATH.
+macOS: the easiest route is Homebrew:
 brew install node@24
 
 Alternatively, download the .pkg installer directly from nodejs.org/en/download, or use nvm if you want to manage multiple Node versions side by side:
@@ -130,72 +117,9 @@ node index.mjs
 You should see Connected to Spectrum. Listening for messages.... Leave this terminal window open — closing it stops the bot. To keep it running in the background and auto-restart it on crash (similar to Docker's restart: unless-stopped), use PM2:
 npm install -g pm2
 pm2 start index.mjs --name imessage-bot
-```
+
 </details>
 
-
-
-<details>
-<summary>Setup: Native Node.js (no Docker)</summary>
-
-## Setup: Native Node.js (no Docker)
-
-This path works identically on Windows, macOS, and Linux — only the install step for Node.js itself differs.
-
-### 1. Install Node.js 24 LTS
-
-**Windows:** download the **LTS** installer (not "Current") from [nodejs.org/en/download](https://nodejs.org/en/download) and run the `.msi`, keeping "Add to PATH" checked. Open a **new** PowerShell window afterward so it picks up the updated PATH.
-
-**macOS:** the easiest route is [Homebrew](https://brew.sh):
-```bash
-brew install node@24
-
-Alternatively, download the .pkg installer directly from nodejs.org/en/download, or use nvm if you want to manage multiple Node versions side by side:
-nvm install 24
-nvm use 24
-
-Linux: use nvm (nvm install 24) or your distro's package manager if it ships a recent enough version.
-Verify on any platform:
-node --version   # should print v24.x.x
-npm --version
-
-If node isn't recognized right after installing on Windows, restart your machine — this resolves most PATH issues.
-2. Install Git (if needed)
-Windows: git-scm.com/download/win, default options are fine.
-macOS: Git ships with Xcode Command Line Tools — running git --version in Terminal for the first time will prompt you to install them if missing.
-Linux: sudo apt install git (Debian/Ubuntu) or your distro's equivalent.
-3. Clone the repository
-git clone [https://github.com/FutabaYuiko/iMessage-persona-bot.git](https://github.com/FutabaYuiko/iMessage-persona-bot.git)
-cd iMessage-persona-bot
-
-4. Install project dependencies
-npm install
-
-> Note: better-sqlite3 compiles a native module during install.
->  * Windows: if this fails with errors mentioning node-gyp, python, or MSBuild, install the "Desktop development with C++" workload via Visual Studio Build Tools, then re-run npm install.
->  * macOS: if this fails, make sure Xcode Command Line Tools are installed: xcode-select --install.
-> 
-5. Create your local config files
-macOS / Linux:
-cp .env.example .env
-cp persona.example.json persona.json
-touch memory.md
-
-Windows (PowerShell):
-Copy-Item .env.example .env
-Copy-Item persona.example.json persona.json
-New-Item -ItemType File -Name memory.md
-
-6. Get a Gemini API key, create a Photon project, and fill in .env
-(see the sections below — identical for all platforms)
-7. Run the bot
-node index.mjs
-
-You should see Connected to Spectrum. Listening for messages.... Leave this terminal window open — closing it stops the bot. To keep it running in the background and auto-restart it on crash (similar to Docker's restart: unless-stopped), use PM2:
-npm install -g pm2
-pm2 start index.mjs --name imessage-bot
-```
-</details>
 
 
 
