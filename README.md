@@ -16,7 +16,7 @@ Most AI character chat tools (SillyTavern, browser extensions, etc.) simulate a 
 - A [Google Gemini API key](https://aistudio.google.com/apikey) (free tier works)
 - A [Photon](https://photon.codes) account with an iMessage-enabled project
 
-## 1. Setup
+## Setup
 
 ### Choosing your setup path
 
@@ -29,120 +29,179 @@ Both paths run the exact same bot — this only affects how it's launched and su
 
 ---
 
-
 <details>
-<summary><h2>Setup: Docker (Linux / macOS / Windows)</h2></summary>
+<summary><strong>Setup: Docker (Linux / macOS / Windows)</strong></summary>
 
 ### 1. Install Docker
 
 **Linux:** follow the [official Docker Engine install guide](https://docs.docker.com/engine/install/) for your distro — Docker Compose is included as a plugin on modern installs.
 
 **macOS:** download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/), matching your chip — check **Apple menu → About This Mac** to see if you have Apple Silicon (M1/M2/M3/M4) or Intel, since picking the wrong build will fail to install. Or, if you use Homebrew:
+
 ```bash
 brew install --cask docker-desktop
+```
 
 Then launch Docker from Applications and wait for the whale icon in the menu bar to stop animating before continuing.
-Windows: Docker Desktop on Windows requires WSL2. Install Docker Desktop, which will prompt you to enable WSL2 if it isn't already — follow its prompts, restart when asked, and wait for Docker Desktop to show "Engine running" before continuing. This requires virtualization to be enabled in your BIOS, which is on by default on most modern PCs.
-2. Clone this repository
-git clone [https://github.com/FutabaYuiko/iMessage-persona-bot.git](https://github.com/FutabaYuiko/iMessage-persona-bot.git)
-cd iMessage-persona-bot
 
-3. Create your local config files
-These files are intentionally excluded from the repo (see .gitignore) because they hold your personal credentials, character design, and runtime data.
-macOS / Linux (bash/zsh):
+**Windows:** Docker Desktop on Windows requires WSL2. Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/), which will prompt you to enable WSL2 if it isn't already — follow its prompts, restart when asked, and wait for Docker Desktop to show "Engine running" before continuing. This requires virtualization to be enabled in your BIOS, which is on by default on most modern PCs.
+
+### 2. Clone this repository
+
+```bash
+git clone https://github.com/FutabaYuiko/iMessage-persona-bot.git
+cd iMessage-persona-bot
+```
+
+### 3. Create your local config files
+
+These files are intentionally excluded from the repo (see `.gitignore`) because they hold your personal credentials, character design, and runtime data.
+
+**macOS / Linux (bash/zsh):**
+
+```bash
 cp .env.example .env
 cp persona.example.json persona.json
 touch memory.md
+```
 
-Windows (PowerShell): use these instead:
+**Windows (PowerShell):**
+
+```powershell
 Copy-Item .env.example .env
 Copy-Item persona.example.json persona.json
 New-Item -ItemType File -Name memory.md
-
- * .env will hold your API keys and settings — you'll fill this in below.
- * persona.json is your character's personality definition — see Building Your Persona further down for how to design one from scratch.
- * memory.md is a long-term memory file the bot appends to automatically over time. It can start completely empty.
-> Note: state.db (the conversation database) does not need to be created manually — it's generated automatically the first time the bot runs.
->
 ```
-</details>
-<details>
-<summary><h2>Setup: Native Node.js (no Docker)</h2></summary>
-This path works identically on Windows, macOS, and Linux — only the install step for Node.js itself differs.
-1. Install Node.js 24 LTS
-Windows: download the LTS installer (not "Current") from nodejs.org/en/download and run the .msi, keeping "Add to PATH" checked. Open a new PowerShell window afterward so it picks up the updated PATH.
-macOS: the easiest route is Homebrew:
-brew install node@24
 
-Alternatively, download the .pkg installer directly from nodejs.org/en/download, or use nvm if you want to manage multiple Node versions side by side:
+- `.env` will hold your API keys and settings — you'll fill this in below.
+- `persona.json` is your character's personality definition — see **Building Your Persona** further down for how to design one from scratch.
+- `memory.md` is a long-term memory file the bot appends to automatically over time. It can start completely empty.
+
+> **Note:** `state.db` (the conversation database) does *not* need to be created manually — it's generated automatically the first time the bot runs.
+
+### 4. Get a Gemini API key, create a Photon project, and fill in `.env`
+
+See the **Get a Gemini API key**, **Create a Photon account and project**, and **Fill in your `.env` file** sections below — these steps are identical regardless of which setup path you chose.
+
+### 5. Start the bot
+
+```bash
+docker compose up -d
+docker compose logs -f imessage-bot
+```
+
+You should see `Connected to Spectrum. Listening for messages...` in the logs. Press Ctrl+C to stop watching logs (the bot keeps running in the background); use `docker compose down` to actually stop it.
+
+</details>
+
+<details>
+<summary><strong>Setup: Native Node.js (no Docker)</strong></summary>
+
+This path works identically on Windows, macOS, and Linux — only the install step for Node.js itself differs.
+
+### 1. Install Node.js 24 LTS
+
+**Windows:** download the **LTS** installer (not "Current") from [nodejs.org/en/download](https://nodejs.org/en/download) and run the `.msi`, keeping "Add to PATH" checked. Open a **new** PowerShell window afterward so it picks up the updated PATH.
+
+**macOS:** the easiest route is [Homebrew](https://brew.sh):
+
+```bash
+brew install node@24
+```
+
+Alternatively, download the `.pkg` installer directly from [nodejs.org/en/download](https://nodejs.org/en/download), or use [nvm](https://github.com/nvm-sh/nvm) if you want to manage multiple Node versions side by side:
+
+```bash
 nvm install 24
 nvm use 24
+```
 
-Linux: use nvm (nvm install 24) or your distro's package manager if it ships a recent enough version.
+**Linux:** use [nvm](https://github.com/nvm-sh/nvm) (`nvm install 24`) or your distro's package manager if it ships a recent enough version.
+
 Verify on any platform:
+
+```bash
 node --version   # should print v24.x.x
 npm --version
+```
 
-If node isn't recognized right after installing on Windows, restart your machine — this resolves most PATH issues.
-2. Install Git (if needed)
-Windows: git-scm.com/download/win, default options are fine.
-macOS: Git ships with Xcode Command Line Tools — running git --version in Terminal for the first time will prompt you to install them if missing.
-Linux: sudo apt install git (Debian/Ubuntu) or your distro's equivalent.
-3. Clone the repository
-git clone [https://github.com/FutabaYuiko/iMessage-persona-bot.git](https://github.com/FutabaYuiko/iMessage-persona-bot.git)
+If `node` isn't recognized right after installing on Windows, restart your machine — this resolves most PATH issues.
+
+### 2. Install Git (if needed)
+
+**Windows:** [git-scm.com/download/win](https://git-scm.com/download/win), default options are fine.
+**macOS:** Git ships with Xcode Command Line Tools — running `git --version` in Terminal for the first time will prompt you to install them if missing.
+**Linux:** `sudo apt install git` (Debian/Ubuntu) or your distro's equivalent.
+
+### 3. Clone the repository
+
+```bash
+git clone https://github.com/FutabaYuiko/iMessage-persona-bot.git
 cd iMessage-persona-bot
+```
 
-4. Install project dependencies
+### 4. Install project dependencies
+
+```bash
 npm install
+```
 
-> Note: better-sqlite3 compiles a native module during install.
->  * Windows: if this fails with errors mentioning node-gyp, python, or MSBuild, install the "Desktop development with C++" workload via Visual Studio Build Tools, then re-run npm install.
->  * macOS: if this fails, make sure Xcode Command Line Tools are installed: xcode-select --install.
-> 
-5. Create your local config files
-macOS / Linux:
+> **Note:** `better-sqlite3` compiles a native module during install.
+> - **Windows:** if this fails with errors mentioning `node-gyp`, `python`, or `MSBuild`, install the "Desktop development with C++" workload via [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/), then re-run `npm install`.
+> - **macOS:** if this fails, make sure Xcode Command Line Tools are installed: `xcode-select --install`.
+
+### 5. Create your local config files
+
+**macOS / Linux:**
+
+```bash
 cp .env.example .env
 cp persona.example.json persona.json
 touch memory.md
+```
 
-Windows (PowerShell):
+**Windows (PowerShell):**
+
+```powershell
 Copy-Item .env.example .env
 Copy-Item persona.example.json persona.json
 New-Item -ItemType File -Name memory.md
+```
 
-6. Get a Gemini API key, create a Photon project, and fill in .env
-(see the sections below — identical for all platforms)
-7. Run the bot
+### 6. Get a Gemini API key, create a Photon project, and fill in `.env`
+
+See the sections below — identical for all platforms.
+
+### 7. Run the bot
+
+```bash
 node index.mjs
+```
 
-You should see Connected to Spectrum. Listening for messages.... Leave this terminal window open — closing it stops the bot. To keep it running in the background and auto-restart it on crash (similar to Docker's restart: unless-stopped), use PM2:
+You should see `Connected to Spectrum. Listening for messages...`. Leave this terminal window open — closing it stops the bot. To keep it running in the background and auto-restart it on crash (similar to Docker's `restart: unless-stopped`), use [PM2](https://pm2.keymetrics.io/):
+
+```bash
 npm install -g pm2
 pm2 start index.mjs --name imessage-bot
 ```
+
 </details>
 
+---
 
+## Get a Gemini API key
 
-
-
-
-
-
-### 2. Get a Gemini API key
-
-Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey), sign in with a Google account, and generate a free API key. Copy it — you'll need it in the next step.
+Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey), sign in with a Google account, and generate a free API key. Copy it — you'll need it below.
 
 This project is built specifically around the Gemini API's request/response format (`systemInstruction`, `generationConfig`, `inlineData` for images, etc.), so it's designed to work with Gemini models only. You *can* point `LLM_API_URL` at a different Gemini model version (e.g. swap `gemini-3.5-flash-lite` for `gemini-2.5-pro`), but switching to a different model family entirely (Claude, GPT, etc.) would require rewriting the request-building code — that's out of scope for a drop-in config change.
 
-### 3. Create a Photon account and project
+## Create a Photon account and project
 
-Go to [app.photon.codes](https://app.photon.codes) and sign up. Once logged in, create a new project and enable the **iMessage** provider for it. Photon will provision a dedicated iMessage line for your project — this is the phone number your character will text from.
-
-From your project's dashboard, copy two values:
+Go to [app.photon.codes](https://app.photon.codes) and sign up, then click **Create Project**. The phone number your character will text from is shown under **Get Started**. From the project's **Settings** page, copy two values:
 - **Project ID**
 - **Project Secret**
 
-### 4. Fill in your `.env` file
+## Fill in your `.env` file
 
 Open `.env` in a text editor and fill in the values you've collected:
 
@@ -154,9 +213,8 @@ LLM_API_URL=
 TIMEZONE=
 ```
 
-- `LLM_API_URL` can be left empty to use the default model (`gemini-3.5
--flash-lite`). If you want a different Gemini model, use the full endpoint URL, e.g.:
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent`
+- `LLM_API_URL` can be left empty to use the default model (`gemini-3.5-flash-lite`). If you want a different Gemini model, use the full endpoint URL, e.g.:
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent`
 - `TIMEZONE` should be an IANA timezone name (e.g. `America/New_York`, `Europe/London`, `Asia/Tokyo`). This is used so the character has an accurate sense of the current date and time — leave empty to default to UTC.
 
 ---
