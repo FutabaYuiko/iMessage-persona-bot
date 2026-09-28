@@ -18,21 +18,54 @@ Most AI character chat tools (SillyTavern, browser extensions, etc.) simulate a 
 
 ## Setup
 
-### 1. Clone this repository
+### Choosing your setup path
+
+| | Best for | Downsides |
+|---|---|---|
+| **Docker** | VPS/servers, "set and forget" deployments, auto-restart on crash, enforced memory limits | Heavier install — Windows needs WSL2, Mac needs Docker Desktop |
+| **Native Node.js** | Quick local testing, low-spec machines, avoiding extra virtualization layers | No built-in auto-restart or memory limiting (can add with PM2) |
+
+Both paths run the exact same bot — this only affects how it's launched and supervised. If you're deploying long-term on a Linux VPS, use Docker. If you're just trying this out on your own Windows or Mac machine first, native Node.js gets you running faster.
+
+---
+
+## Setup: Docker (Linux / macOS / Windows)
+
+### 1. Install Docker
+
+**Linux:** follow the [official Docker Engine install guide](https://docs.docker.com/engine/install/) for your distro — Docker Compose is included as a plugin on modern installs.
+
+**macOS:** download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/), matching your chip — check **Apple menu → About This Mac** to see if you have Apple Silicon (M1/M2/M3/M4) or Intel, since picking the wrong build will fail to install. Or, if you use Homebrew:
+```bash
+brew install --cask docker-desktop
+```
+Then launch Docker from Applications and wait for the whale icon in the menu bar to stop animating before continuing.
+
+**Windows:** Docker Desktop on Windows requires WSL2. Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/), which will prompt you to enable WSL2 if it isn't already — follow its prompts, restart when asked, and wait for Docker Desktop to show "Engine running" before continuing. This requires virtualization to be enabled in your BIOS, which is on by default on most modern PCs.
+
+### 2. Clone this repository
 
 ```bash
 git clone https://github.com/FutabaYuiko/iMessage-persona-bot.git
 cd iMessage-persona-bot
 ```
 
-### 2. Create your local config files
+### 3. Create your local config files
 
-These files are intentionally excluded from the repo (see `.gitignore`) because they hold your personal credentials, character design, and runtime data. Create them now from the provided templates:
+These files are intentionally excluded from the repo (see `.gitignore`) because they hold your personal credentials, character design, and runtime data.
 
+**macOS / Linux (bash/zsh):**
 ```bash
 cp .env.example .env
 cp persona.example.json persona.json
 touch memory.md
+```
+
+**Windows (PowerShell): use these instead:
+```powershell
+Copy-Item .env.example .env
+Copy-Item persona.example.json persona.json
+New-Item -ItemType File -Name memory.md
 ```
 
 - `.env` will hold your API keys and settings — you'll fill this in below.
@@ -41,13 +74,13 @@ touch memory.md
 
 > **Note:** `state.db` (the conversation database) does *not* need to be created manually — it's generated automatically the first time the bot runs.
 
-### 3. Get a Gemini API key
+### 4. Get a Gemini API key
 
 Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey), sign in with a Google account, and generate a free API key. Copy it — you'll need it in the next step.
 
 This project is built specifically around the Gemini API's request/response format (`systemInstruction`, `generationConfig`, `inlineData` for images, etc.), so it's designed to work with Gemini models only. You *can* point `LLM_API_URL` at a different Gemini model version (e.g. swap `gemini-3.5-flash-lite` for `gemini-2.5-pro`), but switching to a different model family entirely (Claude, GPT, etc.) would require rewriting the request-building code — that's out of scope for a drop-in config change.
 
-### 4. Create a Photon account and project
+### 5. Create a Photon account and project
 
 Go to [app.photon.codes](https://app.photon.codes) and sign up. Once logged in, create a new project and enable the **iMessage** provider for it. Photon will provision a dedicated iMessage line for your project — this is the phone number your character will text from.
 
@@ -55,7 +88,7 @@ From your project's dashboard, copy two values:
 - **Project ID**
 - **Project Secret**
 
-### 5. Fill in your `.env` file
+### 6. Fill in your `.env` file
 
 Open `.env` in a text editor and fill in the values you've collected:
 
@@ -74,7 +107,7 @@ TIMEZONE=
 
 ---
 
-### 6. Persona Generation Prompt
+### 7. Persona Generation Prompt
 
 Why this exists
 
