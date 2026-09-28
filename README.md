@@ -32,7 +32,7 @@ Both paths run the exact same bot — this only affects how it's launched and su
 
 <details>
 <summary>
-  ## Setup: Docker (Linux / macOS / Windows)</summary>
+## Setup: Docker (Linux / macOS / Windows)</summary>
 
 ## Setup: Docker (Linux / macOS / Windows)
 
@@ -138,7 +138,7 @@ pm2 start index.mjs --name imessage-bot
 
 <details>
 <summary>
-  ## Setup: Native Node.js (no Docker)</summary>
+## Setup: Native Node.js (no Docker)</summary>
 
 ## Setup: Native Node.js (no Docker)
 
