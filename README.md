@@ -16,7 +16,7 @@ Most AI character chat tools (SillyTavern, browser extensions, etc.) simulate a 
 - A [Google Gemini API key](https://aistudio.google.com/apikey) (free tier works)
 - A [Photon](https://photon.codes) account with an iMessage-enabled project
 
-## Setup
+## 1. Setup
 
 ### Choosing your setup path
 
@@ -29,6 +29,10 @@ Both paths run the exact same bot — this only affects how it's launched and su
 
 ---
 
+
+<details>
+<summary>Setup: Docker (Linux / macOS / Windows)</summary>
+
 ## Setup: Docker (Linux / macOS / Windows)
 
 ### 1. Install Docker
@@ -38,41 +42,33 @@ Both paths run the exact same bot — this only affects how it's launched and su
 **macOS:** download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/), matching your chip — check **Apple menu → About This Mac** to see if you have Apple Silicon (M1/M2/M3/M4) or Intel, since picking the wrong build will fail to install. Or, if you use Homebrew:
 ```bash
 brew install --cask docker-desktop
-```
+
 Then launch Docker from Applications and wait for the whale icon in the menu bar to stop animating before continuing.
-
-**Windows:** Docker Desktop on Windows requires WSL2. Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/), which will prompt you to enable WSL2 if it isn't already — follow its prompts, restart when asked, and wait for Docker Desktop to show "Engine running" before continuing. This requires virtualization to be enabled in your BIOS, which is on by default on most modern PCs.
-
-### 2. Clone this repository
-
-```bash
+Windows: Docker Desktop on Windows requires WSL2. Install Docker Desktop, which will prompt you to enable WSL2 if it isn't already — follow its prompts, restart when asked, and wait for Docker Desktop to show "Engine running" before continuing. This requires virtualization to be enabled in your BIOS, which is on by default on most modern PCs.
+2. Clone this repository
 git clone https://github.com/FutabaYuiko/iMessage-persona-bot.git
 cd iMessage-persona-bot
-```
 
-### 3. Create your local config files
-
-These files are intentionally excluded from the repo (see `.gitignore`) because they hold your personal credentials, character design, and runtime data.
-
-**macOS / Linux (bash/zsh):**
-```bash
+3. Create your local config files
+These files are intentionally excluded from the repo (see .gitignore) because they hold your personal credentials, character design, and runtime data.
+macOS / Linux (bash/zsh):
 cp .env.example .env
 cp persona.example.json persona.json
 touch memory.md
-```
 
-**Windows (PowerShell): use these instead:
-```powershell
+Windows (PowerShell): use these instead:
 Copy-Item .env.example .env
 Copy-Item persona.example.json persona.json
 New-Item -ItemType File -Name memory.md
-```
 
-- `.env` will hold your API keys and settings — you'll fill this in below.
-- `persona.json` is your character's personality definition — see **Building Your Persona** further down for how to design one from scratch.
-- `memory.md` is a long-term memory file the bot appends to automatically over time. It can start completely empty.
+ * .env will hold your API keys and settings — you'll fill this in below.
+ * persona.json is your character's personality definition — see Building Your Persona further down for how to design one from scratch.
+ * memory.md is a long-term memory file the bot appends to automatically over time. It can start completely empty.
+> Note: state.db (the conversation database) does not need to be created manually — it's generated automatically the first time the bot runs.
+> 
+</details>
 
-> **Note:** `state.db` (the conversation database) does *not* need to be created manually — it's generated automatically the first time the bot runs.
+
 
 
 <details>
@@ -141,13 +137,13 @@ pm2 start index.mjs --name imessage-bot
 
 
 
-### 4. Get a Gemini API key
+### 2. Get a Gemini API key
 
 Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey), sign in with a Google account, and generate a free API key. Copy it — you'll need it in the next step.
 
 This project is built specifically around the Gemini API's request/response format (`systemInstruction`, `generationConfig`, `inlineData` for images, etc.), so it's designed to work with Gemini models only. You *can* point `LLM_API_URL` at a different Gemini model version (e.g. swap `gemini-3.5-flash-lite` for `gemini-2.5-pro`), but switching to a different model family entirely (Claude, GPT, etc.) would require rewriting the request-building code — that's out of scope for a drop-in config change.
 
-### 5. Create a Photon account and project
+### 3. Create a Photon account and project
 
 Go to [app.photon.codes](https://app.photon.codes) and sign up. Once logged in, create a new project and enable the **iMessage** provider for it. Photon will provision a dedicated iMessage line for your project — this is the phone number your character will text from.
 
@@ -155,7 +151,7 @@ From your project's dashboard, copy two values:
 - **Project ID**
 - **Project Secret**
 
-### 6. Fill in your `.env` file
+### 4. Fill in your `.env` file
 
 Open `.env` in a text editor and fill in the values you've collected:
 
@@ -174,7 +170,7 @@ TIMEZONE=
 
 ---
 
-### 7. Persona Generation Prompt
+### 5. Persona Generation Prompt
 
 Why this exists
 
